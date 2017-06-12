@@ -1,50 +1,126 @@
 #include<iostream>
+#include<fstream>
 using namespace std;
 
 int main()
 {
-    cout << "Glavni izbornik" << endl;
-    cout << "1. Unos nove osobe" << endl;
-    cout << "2. Ispisi podatke" << endl;
-    cout << "3. pretraga prema racunu" << endl;
-    cout << "4. Pretraga prema prezimenu" << endl;
-    cout << "5. Ispisi sortirano" << endl;
-    int izbor;
-    cin >> izbor;
-
     unsigned long long int brRacuna[50];
     string prezimeIme[50];
     float saldo[50];
     int brojKlijenta = 0;
-    if ( izbor == 1 )
+    ofstream datotekaUpisivanje;
+    ifstream datotekaUcitavanje;
+    datotekaUcitavanje.open("banka.txt");
+    while(1)
     {
-        cout<< "Unesite broj racuna";
-        cin>>brRacuna[brojKlijenta];
-        cout<< "Unesite prezime i ime";
-        cin.ignore();
-        getline(cin, prezimeIme[brojKlijenta]);
-        saldo[brojKlijenta] = 0;
+        datotekaUcitavanje >> brRacuna[brojKlijenta];
+        if(datotekaUcitavanje.eof() == true)
+        {
+            break;
+        }
+        datotekaUcitavanje.ignore();
+        getline(datotekaUcitavanje, prezimeIme[brojKlijenta]);
+        datotekaUcitavanje >> saldo[brojKlijenta];
         brojKlijenta++;
     }
-    else if (izbor == 2 )
+    datotekaUcitavanje.close();
+    while(1)
     {
-        for( int i = 0; i < brojKlijenta; i++)
-        {
-            cout << brRacuna[i] << " " <<prezimeIme[i] << "saldo: " << saldo[i] <<endl;
+
+        cout << endl;
+        cout << "Glavni izbornik" << endl;
+        cout << "1. Unos nove osobe" << endl;
+        cout << "2. Ispisi podatke" << endl;
+        cout << "3. pretraga prema racunu" << endl;
+        cout << "4. Pretraga prema prezimenu" << endl;
+        cout << "5. Ispisi sortirano" << endl;
+        cout << "6. Izlaz iz programa" << endl;
+        int izbor;
+        cin >> izbor;
+
+          if(izbor ==1 )
+         {
+             cout<< "Unesite broj racuna: ";
+             cin>>brRacuna[brojKlijenta];
+             cout<< "Unesite prezime i ime: ";
+             cin.ignore();
+             getline(cin, prezimeIme[brojKlijenta]);
+             cout<< "Unesite saldo: ";
+             cin>>saldo[brojKlijenta];
+
+             brojKlijenta++;
+         }
+         else if (izbor == 2 )
+         {
+             for( int i = 0; i < brojKlijenta; i++)
+             {
+                 cout << brRacuna[i] << " " <<prezimeIme[i] << " saldo: " << saldo[i] <<endl;
+             }
         }
-    }
-    else if ( izbor == 3)
-    {
-        cout << "Unesite broj racuna koji zelite pronaci";
-        unsigned long long int brracuna;
-        cin >> brracuna;
-        for (int i=0; i < brojKlijenta; i++ )
+        else if ( izbor == 3)
         {
-            if (brracuna == brRacuna[i])
-            {
-                cout << "Osoba je pronaðena."<<endl;
-                break;
+            cout << "Unesite broj racuna koji zelite pronaci";
+             unsigned long long int brracuna;
+             cin >> brracuna;
+             for (int i=0; i < brojKlijenta; i++ )
+             {
+                 if (brracuna == brRacuna[i])
+                 {
+                     cout << "Osoba je pronadjena."<<endl;
+                     cout << brRacuna[i] << " " <<prezimeIme[i] << " saldo: " << saldo[i] <<endl;
+                     break;
+                 }
             }
+        }
+        else if (izbor == 4)
+        {
+            string naziv;
+            cout << " upisite prezime osobe; ";
+                cin.ignore();
+                getline( cin, naziv);
+                bool pronadjen = false;
+                for(int i = 0; i< brojKlijenta; i++)
+                {
+                     if(naziv == prezimeIme[i])
+                    {
+                        cout << brRacuna[i] <<  "\t";
+                        cout << prezimeIme[i] << "\t";
+                        cout << saldo[i] << "\t";
+                        pronadjen=true;
+                        break;
+
+                    }
+                    if(pronadjen == false)
+                    {
+                        cout << "osoba ne postoji:";
+                    }
+                }
+        }
+        else if (izbor == 5)
+        {
+            int n = brojKlijenta;
+            int temp;
+            for ( int kraj = n-1; kraj >= 0; kraj --)
+            {
+                for(int i = 0; i < kraj; i++)
+                {
+                    if (brojKlijenta[i] > brojKlijenta[i+1])
+                    {
+                        temp=brojKlijenta[i];
+                        brojKlijenta[i]=brojKlijenta[i+1];
+                        brojKlijenta[i+1]=temp;
+                    }
+                }
+            }
+        }
+        else if (izbor == 6)
+        {
+            cout << "Kraj rada!!!!!!!" << endl;
+            break;
         }
     }
 }
+
+
+
+

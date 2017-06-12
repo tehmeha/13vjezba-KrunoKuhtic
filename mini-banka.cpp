@@ -104,11 +104,11 @@ int main()
             {
                 for(int i = 0; i < kraj; i++)
                 {
-                    if (brojKlijenta[i] > brojKlijenta[i+1])
+                    if (prezimeIme[i] >prezimeIme[i+1])
                     {
-                        temp=brojKlijenta[i];
-                        brojKlijenta[i]=brojKlijenta[i+1];
-                        brojKlijenta[i+1]=temp;
+                        temp=prezimeIme[i];
+                        prezimeIme[i]=prezimeIme[i+1];
+                        prezimeIme[i+1]=temp;
                     }
                 }
             }
